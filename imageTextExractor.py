@@ -1,11 +1,15 @@
-import pytesseract
-from PIL import Image
+import easyocr
 
-def extract_text_from_image(image_path):
-    # Open the image file
-    with Image.open(image_path) as img:
-        # Use pytesseract to extract text from the image
-        text = pytesseract.image_to_string(img)
+def extract_text_from_image(image_path, language='en'):
+    # Initialize EasyOCR reader
+    reader = easyocr.Reader([language])
+
+    # Read text from the image
+    result = reader.readtext(image_path)
+
+    # Extract and concatenate text from the result
+    text = ' '.join([entry[1] for entry in result])
+
     return text
 
 # Example usage
